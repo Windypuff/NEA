@@ -1,0 +1,45 @@
+﻿@using NEA.Controllers
+@model EquationDTO
+
+
+@{
+    ViewData["Title"] = "Home Page";
+    List<string> solutions = null;
+    if (Model.solutions != null){
+        solutions = Model.solutions;
+    }
+   
+    
+
+}
+<div class="container">
+    <form method="POST" enctype="multipart/form-data" >
+        <div class="form-group">
+            <div class="input-group shadow">
+                
+                <input name="equation" type="text" class="form-control form-control-lg dummy-file-input" placeholder="Input Equation Here" >
+                <button id="btn-submit" class="btn btn-success" type="submit"><i class="fas fa-upload"></i> Submit </button> 
+            </div>
+             
+        </div>
+    
+    </form>
+</div>
+
+<div class="text-center">
+    @{
+        if (solutions != null){
+            @foreach (var solution in solutions){
+        <li class = "list-group-item">
+            x = @solution
+        </li>
+        }
+        
+
+    }
+
+    }
+    
+    
+</div>
+
