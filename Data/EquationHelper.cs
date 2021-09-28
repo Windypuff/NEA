@@ -37,14 +37,22 @@ namespace NEA
             }
             return parts;
         }
+
+        public static readonly Regex QuadraticRegex = new (@"(?:(?<A>-?(\d+)?) ?x\^2)(?<B>[+-] ?(\d?)+) ?x(?<C>[+-] ?\d+)?", RegexOptions.IgnoreCase | RegexOptions.Compiled, 
+        TimeSpan.FromMilliseconds(250));
+
+        public static readonly Regex LinearRegex = new (@"(?<B>-? ?(\d?)+) ?x(?<C>[+-] ?\d+)?", RegexOptions.IgnoreCase | RegexOptions.Compiled, 
+        TimeSpan.FromMilliseconds(250));
         public List<double> ParseEquationRegex(string equation){
-            string pattern = @"(?:(?<A>-?(\d+)?) ?x\^2)(?<B>[+-] ?(\d?)+) ?x(?<C>[+-] ?\d+)?"; //works for equations in the form ax^2+bx+c
             equation = equation.Replace(" ", string.Empty);
-            Match m = Regex.Match(equation, pattern, RegexOptions.IgnoreCase); //applies the regex to the inputted equation
+            Match m = QuadraticRegex.Match(equation); //applies the regex to the inputted equation
+            string A;
+            string B;
+            string C;
             if (m.Success){        
-                string A = m.Groups["A"].Value; //gets each numerical value from the equation into their corresponding letters from ax^2+bx+c
-                string B = m.Groups["B"].Value;
-                string C = m.Groups["C"].Value;
+                A = m.Groups["A"].Value; //gets each numerical value from the equation into their corresponding letters from ax^2+bx+c
+                B = m.Groups["B"].Value;
+                C = m.Groups["C"].Value;
                 if (A == null){
                     A = "1"; //this applies to equations with no coefficient of x^2
                 }
@@ -66,14 +74,11 @@ namespace NEA
                 
             }
             else{
-                pattern = @"(?<B>-? ?(\d?)+) ?x(?<C>[+-] ?\d+)?"; //Works for equations in the form bx+c
-                equation = equation.Replace(" ", string.Empty);
-                m = Regex.Match(equation, pattern, RegexOptions.IgnoreCase);
-                      
-                string A;
-                string B = m.Groups["B"].Value;
-                string C = m.Groups["C"].Value;
-                A = "0";
+                m = LinearRegex.Match(equation);  
+                A = "0";       
+                B = m.Groups["B"].Value;
+                C = m.Groups["C"].Value;
+                
             
                 if (B == "-"){
                     B = "-1";
@@ -258,6 +263,5 @@ namespace NEA
             }
             return solutions;
         }
- 
     }
 }
