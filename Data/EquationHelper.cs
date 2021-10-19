@@ -79,8 +79,10 @@ namespace NEA
                 B = m.Groups["B"].Value;
                 C = m.Groups["C"].Value;
                 
-            
-                if (B == "-"){
+                if (B == ""){
+                    B = "1";
+                }
+                else if (B == "-"){
                     B = "-1";
                 }
                 if (C == null){

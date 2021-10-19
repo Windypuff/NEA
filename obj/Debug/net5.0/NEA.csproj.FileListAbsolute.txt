@@ -78,4 +78,4 @@ C:\Users\bensc\OneDrive\Documents\A Level Computer Science\NEA\obj\Debug\net5.0\
 C:\Users\bensc\OneDrive\Documents\A Level Computer Science\NEA\obj\Debug\net5.0\ref\NEA.dll
 C:\Users\bensc\OneDrive\Documents\A Level Computer Science\NEA\obj\Debug\net5.0\NEA.pdb
 C:\Users\bensc\OneDrive\Documents\A Level Computer Science\NEA\obj\Debug\net5.0\NEA.genruntimeconfig.cache
-C:\Users\bensc\OneDrive\Documents\A Level Computer Science\NEA\obj\Debug\net5.0\Razor\Views\Home\Quiz.cshtml.g.cs
+C:\Users\bensc\OneDrive\Documents\A Level Computer Science\NEA\obj\Debug\net5.0\Razor\Views\Quiz\Index.cshtml.g.cs

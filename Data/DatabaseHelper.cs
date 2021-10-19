@@ -11,12 +11,11 @@ namespace NEA
     {
         private readonly IConfiguration _config; 
         private readonly string _connString;
-
-        public DatabaseHelper(IConfiguration config){
-            _config = config;
-            _connString = _config.GetValue<string>("ConnectionStrings:DefaultConnection");
-        }
-         
+        public DatabaseHelper(string connString){
+            //_config = config;
+            //_connString = _config.GetValue<string>("ConnectionStrings:DefaultConnection");
+            _connString = connString;
+        }        
         public UserModel GetUserData(string UserID){
             
             using (var connection = new SqliteConnection(_connString)){
@@ -48,10 +47,8 @@ namespace NEA
                 return null;
             }
         }   
-
-        public List<QuestionModel> GetQuestion(int DifficultyLevel)
+        public List<QuestionModel> GetQuestions(int DifficultyLevel)
         {
-
             List<QuestionModel> Questions = new List<QuestionModel>();
 
             using (var connection = new SqliteConnection(_connString))
@@ -70,19 +67,29 @@ namespace NEA
                     while (reader.Read())
                     {
                         var Equation = reader.GetString(1);
-                
-        
+                        var equationHelper = new EquationHelper();
+                        List<Double> parts = equationHelper.ParseEquationRegex(Equation);
+                        List<String> solutions = equationHelper.SolveEquation(parts[0],parts[1],parts[2]);
+                        
+                        String solutionsConcatenated = null;
+                        if (solutions.Count == 1){
+                            solutionsConcatenated = solutions[0];
+                        }
+                        else{
+                            solutionsConcatenated = "x = " + solutions[0] + " , x = " + solutions[1];
+                        }
+                    
                         QuestionModel Question = new QuestionModel{
                             Equation = Equation,
                             DifficultyLevel = DifficultyLevel,
+                            Solutions = solutions,
+                            SolutionsConcatenated = solutionsConcatenated
                         };
-                        Questions.Add(Question);
-                        return Questions;
+                        Questions.Add(Question);                       
                     }
                 }
-                return null;
+                return Questions;
             }
-
         }  
     }
 }

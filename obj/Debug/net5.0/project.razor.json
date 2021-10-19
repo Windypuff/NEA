@@ -15634,6 +15634,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "c:\\Users\\bensc\\OneDrive\\Documents\\A Level Computer Science\\NEA\\Views\\Quiz\\Index.cshtml",
+      "TargetPath": "Views\\Quiz\\Index.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "c:\\Users\\bensc\\OneDrive\\Documents\\A Level Computer Science\\NEA\\Views\\_ViewImports.cshtml",
       "TargetPath": "Views\\_ViewImports.cshtml",
       "FileKind": "mvc"
@@ -15646,11 +15651,6 @@
     {
       "FilePath": "c:\\Users\\bensc\\OneDrive\\Documents\\A Level Computer Science\\NEA\\Views\\Shared\\_LoginPartial.cshtml",
       "TargetPath": "Views\\Shared\\_LoginPartial.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\bensc\\OneDrive\\Documents\\A Level Computer Science\\NEA\\Views\\Home\\Quiz.cshtml",
-      "TargetPath": "Views\\Home\\Quiz.cshtml",
       "FileKind": "mvc"
     },
     {

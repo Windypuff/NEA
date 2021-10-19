@@ -1,0 +1,116 @@
+@using NEA.Controllers
+@model QuestionDTO
+
+
+
+@{
+    ViewData["Title"] = "Quiz";
+    List<QuestionModel> questions = null;
+    string PreviousAnswerCorrect = null;
+    if (Model != null){
+        questions = Model.Questions;
+        if (Model.PreviousAnswerCorrect != null){
+            PreviousAnswerCorrect = Model.PreviousAnswerCorrect;
+        }
+    }
+    Random R = new Random();
+    int i = R.Next(0,questions.Count); 
+}
+
+
+<!DOCTYPE html>
+<html>
+<style>
+/* The container */
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.container .checkmark:after {
+ 	top: 8.5px;
+	left: 8.5px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: white;
+}
+
+</style>
+<body>
+
+@if (PreviousAnswerCorrect == "y"){
+  <h1 style="color:green;">Correct</h1>
+}
+@if (PreviousAnswerCorrect == "n"){
+  <h1 style="color:red;">Incorrect</h1>
+}
+<h2>@questions[i].Equation</h2>
+<form method="POST">
+  <input type = "hidden" name = "equation" value = @questions[i].Equation />
+  <input type = "hidden" name = "difficulty" value = @questions[i].DifficultyLevel />
+  @foreach (var question in questions) 
+    {
+      <label class="container">@question.SolutionsConcatenated 
+          <input type="radio" name="answer" value="@question.SolutionsConcatenated">
+          <span class="checkmark"></span>
+          
+      </label> 
+    }  
+   <button id="btn-submit" class="btn btn-success" type="submit"><i class="btn btn-primary d-none"></i> Submit </button>    
+</form>
+
+
+</body>
+</html>
+
+

@@ -29,17 +29,13 @@
 <div class="text-center">
     @{
         if (solutions != null){
-            @foreach (var solution in solutions){
-        <li class = "list-group-item">
-            x = @solution
-        </li>
+            @foreach (var solution in solutions)
+            {
+            <li class = "list-group-item">
+                x = @solution
+            </li>
+            }
         }
-        
-
-    }
-
-    }
-    
-    
+    }   
 </div>
 
