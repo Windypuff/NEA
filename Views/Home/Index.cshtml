@@ -1,5 +1,9 @@
 ﻿@using NEA.Controllers
 @model EquationDTO
+@using Highsoft.Web.Mvc.Charts
+@using Highsoft.Web.Mvc.Charts.Rendering
+
+
 
 
 @{
@@ -38,4 +42,107 @@
         }
     }   
 </div>
+
+
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+
+<script type="text/javascript">
+
+    function formatXLabels() {
+        return this.value;
+    }
+
+    function formatYLabels() {
+        return this.value;
+    }
+
+</script>
+
+@{ var chartOptions =
+      new Highcharts
+      {
+          Chart = new Highsoft.Web.Mvc.Charts.Chart
+          {
+              Inverted = false,
+              Type = ChartType.Spline
+          },
+          Title = new Title
+          {
+              Text = null
+          },
+
+          XAxis = new List<XAxis>
+              {
+                new XAxis
+                {
+                    //Reversed = true,
+                    Title = new XAxisTitle
+                    {
+                        Text = null //was x
+                    },
+                    Labels = new XAxisLabels
+                    {
+                        Formatter = "formatXLabels"
+                    },
+                    MaxPadding = 0.05,
+                    ShowLastLabel = true
+                }
+                              },
+            YAxis = new List<YAxis>
+            {
+                new YAxis
+                {
+                    //Reversed = true,
+                Title = new YAxisTitle
+                {
+                    Text = null //was y
+                },
+                    Labels = new YAxisLabels
+                    {
+                        Formatter = "formatYLabels"
+                    },
+                    LineWidth = 2
+                }
+            },
+          Legend = new Legend
+          {
+              Enabled = false
+          },
+          Tooltip = new Tooltip
+          {
+              HeaderFormat = null,
+              PointFormat = "({point.x},{point.y})"
+          },
+
+          PlotOptions = new PlotOptions
+          {
+              Spline = new PlotOptionsSpline
+              {
+                  Marker = new PlotOptionsSplineMarker
+                  {
+                      Enabled = true
+                  }
+              }
+          },
+
+          Series = new List<Series>
+              {
+                new SplineSeries
+                {
+                    
+                    Data = Model.Coordinates as List<SplineSeriesData>
+                }
+            }
+      };
+
+    chartOptions.ID = "chart";
+    var renderer = new HighchartsRenderer(chartOptions);
+}
+@if(Model.Coordinates != null){
+    @Html.Raw(renderer.RenderHtml())
+}
+
 
