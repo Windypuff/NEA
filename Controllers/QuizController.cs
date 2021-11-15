@@ -55,7 +55,7 @@ namespace NEA.Controllers
         public IActionResult Index(ResultModel question)
         {
             var equationHelper =  new EquationHelper();
-            List<double> parts = equationHelper.ParseEquationRegex(question.equation);
+            List<decimal> parts = equationHelper.ParseEquationRegex(question.equation);
             List<string> solutions = equationHelper.SolveEquation(parts[0],parts[1],parts[2]);
             String solutionsConcatenated = null;
                 if (solutions.Count == 1){

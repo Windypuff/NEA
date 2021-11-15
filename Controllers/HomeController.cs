@@ -19,6 +19,8 @@ namespace NEA.Controllers
         public string equation {get;set;}
         public List<string> solutions {get;set;}
         public List<SplineSeriesData> Coordinates {get;set;}
+        public List<SplineSeriesData> xAxis {get;set;}
+        public List<SplineSeriesData> yAxis {get;set;}
     }
     public class HomeController : Controller
     {
@@ -41,15 +43,31 @@ namespace NEA.Controllers
         {
             var equationDTO = new EquationDTO();  //Used to send data to the front end
 
-            var equationParser = new EquationHelper();
+            var equationHelper = new EquationHelper();
             var plottingHelper = new PlottingHelper();
             if (equation != null){
-                List<double> parts = equationParser.ParseEquationRegex(equation);
-                List<string> solutions = equationParser.SolveEquation(parts[0],parts[1],parts[2]);
-                List<SplineSeriesData> tempData = plottingHelper.GetPoints(parts[0],parts[1],parts[2]);
+                List<decimal> parts = equationHelper.ParseEquationRegex(equation);
+                List<string> solutions = equationHelper.SolveEquation(parts[0],parts[1],parts[2]);
+                List<List<decimal>> tempCoordinates = plottingHelper.GetPoints(parts[0],parts[1],parts[2],solutions);
+                
+                decimal? turningPoint = equationHelper.FindTurningPoint(parts[0],parts[1],parts[2]);
+                if (turningPoint == null){
+                    turningPoint = 0;
+                }
+                List<SplineSeriesData> xAxis = plottingHelper.xAxisPoints(tempCoordinates[0]);
+
+                List<SplineSeriesData> coordinates = new List<SplineSeriesData>(); //List of points
+                for (int i = 0; i < tempCoordinates[0].Count; i++) //lists through each point and adds them to the list
+                {
+                    SplineSeriesData seriesData = new SplineSeriesData { X = Convert.ToDouble(tempCoordinates[0][i]), Y = Convert.ToDouble(tempCoordinates[1][i]) };
+                    coordinates.Add(seriesData);
+                }
+                //List<SplineSeriesData> yAxis = 
                 equationDTO.equation = equation;
                 equationDTO.solutions = solutions;
-                equationDTO.Coordinates = tempData;
+                equationDTO.Coordinates = coordinates;
+                equationDTO.xAxis = xAxis;
+                //equationDTO.yAxis = YAxis;
 
              
             

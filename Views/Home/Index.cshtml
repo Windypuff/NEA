@@ -67,7 +67,9 @@
           Chart = new Highsoft.Web.Mvc.Charts.Chart
           {
               Inverted = false,
-              Type = ChartType.Spline
+              Type = ChartType.Spline,
+              ZoomType = ChartZoomType.Xy
+
           },
           Title = new Title
           {
@@ -96,10 +98,10 @@
                 new YAxis
                 {
                     //Reversed = true,
-                Title = new YAxisTitle
-                {
-                    Text = null //was y
-                },
+                    Title = new YAxisTitle
+                    {
+                        Text = null //was y
+                    },
                     Labels = new YAxisLabels
                     {
                         Formatter = "formatYLabels"
@@ -132,8 +134,11 @@
               {
                 new SplineSeries
                 {
-                    
                     Data = Model.Coordinates as List<SplineSeriesData>
+                },
+                new SplineSeries
+                {
+                    Data = Model.xAxis as List<SplineSeriesData>
                 }
             }
       };
@@ -141,6 +146,7 @@
     chartOptions.ID = "chart";
     var renderer = new HighchartsRenderer(chartOptions);
 }
+
 @if(Model.Coordinates != null){
     @Html.Raw(renderer.RenderHtml())
 }

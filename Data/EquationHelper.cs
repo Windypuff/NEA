@@ -8,10 +8,10 @@ namespace NEA
     public class EquationHelper
     {
     
-        public List<Double> RemoveAdditionSign(string A, string B, string C){
-            List<Double> parts = new List<Double>();
+        public List<Decimal> RemoveAdditionSign(string A, string B, string C){
+            List<Decimal> parts = new List<Decimal>();
             try{
-                Double partA = Convert.ToDouble(A);
+                Decimal partA = Convert.ToDecimal(A);
                 parts.Add(partA);
 
             }
@@ -20,19 +20,19 @@ namespace NEA
             }
             
             try{
-                Double partB = Convert.ToDouble(B); //checks for a negative value
+                Decimal partB = Convert.ToDecimal(B); //checks for a negative value
                 parts.Add(partB);
             }
             catch{
-                Double partB = Convert.ToDouble(B[1]); //if the value has a + symbol 
+                Decimal partB = Convert.ToDecimal(B[1]); //if the value has a + symbol 
                 parts.Add(partB);
             }
             try{
-                Double partC = Convert.ToDouble(C);
+                Decimal partC = Convert.ToDecimal(C);
                 parts.Add(partC);
             }
             catch{
-                Double partC = Convert.ToDouble(C[1]);
+                Decimal partC = Convert.ToDecimal(C[1]);
                 parts.Add(partC);
             }
             return parts;
@@ -43,7 +43,7 @@ namespace NEA
 
         public static readonly Regex LinearRegex = new (@"(?<B>-? ?(\d?)+) ?x(?<C>[+-] ?\d+)?", RegexOptions.IgnoreCase | RegexOptions.Compiled, 
         TimeSpan.FromMilliseconds(250));
-        public List<double> ParseEquationRegex(string equation){
+        public List<decimal> ParseEquationRegex(string equation){
             equation = equation.Replace(" ", string.Empty);
             Match m = QuadraticRegex.Match(equation); //applies the regex to the inputted equation
             string A;
@@ -68,8 +68,8 @@ namespace NEA
                 if (C == null){
                     C = "0"; //Equations in the form ax^2+bx need to assign 0 to C
                 }
-                List<Double> parts = new List<Double>();
-                parts = RemoveAdditionSign(A,B,C); //The regex leaves - and + signs with each number so to convert to a double we must remove the + sign
+                List<Decimal> parts = new List<Decimal>();
+                parts = RemoveAdditionSign(A,B,C); //The regex leaves - and + signs with each number so to convert to a decimal we must remove the + sign
                 return parts;
                 
             }
@@ -88,15 +88,15 @@ namespace NEA
                 if (C == null){
                     C = "0";
                 }
-                List<Double> parts = new List<Double>();
+                List<Decimal> parts = new List<Decimal>();
                 parts = RemoveAdditionSign(A,B,C);               
                 return parts;      
             }   
         } 
-        public List<double> ParseEquation(string equation){
-            double A = 0;
-            double B = 0;
-            double C = 0;
+        public List<decimal> ParseEquation(string equation){
+            decimal A = 0;
+            decimal B = 0;
+            decimal C = 0;
             List<string> positiveParts =  new List<string>();
             List<string> negativeParts =  new List<string>();
             string[] additionSplitString = equation.Split("+");
@@ -143,7 +143,7 @@ namespace NEA
                         }
                         else
                         {
-                            A = Convert.ToDouble(positivePart.Substring(0,positionOfX));
+                            A = Convert.ToDecimal(positivePart.Substring(0,positionOfX));
                         }
                     }
                     else if(positivePart.Contains("x"))
@@ -156,12 +156,12 @@ namespace NEA
                         }
                         else
                         {
-                            B = Convert.ToDouble(positivePart.Substring(0,positionOfX));
+                            B = Convert.ToDecimal(positivePart.Substring(0,positionOfX));
                         }
                     }
                     else
                     {
-                        C = Convert.ToDouble(positivePart);
+                        C = Convert.ToDecimal(positivePart);
                     }  
                 }
 
@@ -177,7 +177,7 @@ namespace NEA
                         }
                         else
                         {
-                            A = 0 - Convert.ToDouble(negativePart.Substring(0,positionOfX));
+                            A = 0 - Convert.ToDecimal(negativePart.Substring(0,positionOfX));
                         }
                     }
                     else if(negativePart.Contains("x"))
@@ -190,15 +190,15 @@ namespace NEA
                         }
                         else
                         {
-                            B = 0 - Convert.ToDouble(negativePart.Substring(0,positionOfX));
+                            B = 0 - Convert.ToDecimal(negativePart.Substring(0,positionOfX));
                         }
                     }
                     else
                     {
-                        C = 0 - Convert.ToDouble(negativePart);
+                        C = 0 - Convert.ToDecimal(negativePart);
                     }  
                 }
-                List<Double> parts = new List<Double>();
+                List<Decimal> parts = new List<Decimal>();
                 parts.Add(A);
                 parts.Add(B);
                 parts.Add(C);
@@ -214,19 +214,21 @@ namespace NEA
 
 
         }
-        public List<string> SolveEquation(double A, double B, double C){
+
+        
+        public List<string> SolveEquation(decimal A, decimal B, decimal C){
             List<string> solutions = new List<string>();
             string solution1 = ""; //Quadratics have two solutions
             string solution2 = "";
             try{
                 if (A != 0) //If the equation is a quadratic
                 {
-                    Double discriminant = B*B - 4*A*C; //use the quadratic formula
-                    Double squareRoot = Math.Sqrt(Math.Abs(discriminant));
+                    Decimal discriminant = B*B - 4*A*C; //use the quadratic formula
+                    Decimal squareRoot = (decimal)Math.Sqrt((double)Math.Abs(discriminant));
                     if (discriminant >= 0)
                     {
-                        Double root1 = (-B + squareRoot)/(2*A);
-                        Double root2 = (-B - squareRoot)/(2*A);
+                        Decimal root1 = (-B + squareRoot)/(2*A);
+                        Decimal root2 = (-B - squareRoot)/(2*A);
                         root1 = Math.Round(root1, 2); //Round the root to 2dp
                         root2 = Math.Round(root2, 2);
                         if (root1 == root2) //If both roots are the same
@@ -242,28 +244,57 @@ namespace NEA
                     }
                     else //If the roots are imaginary numbers they require more formatting
                     {
-                        Double coefficient = (squareRoot)/(2*A);
-                        Double roundedCoefficient = Math.Round(coefficient,2);
-                        solution1 = ((-B)/(2*A) + " + " + roundedCoefficient + "i");
-                        solution2 = ((-B)/(2*A) + " - " + roundedCoefficient + "i");
+                        Decimal coefficient = (squareRoot)/(2*A);
+                        Decimal roundedCoefficient = Math.Round(coefficient,2);
+                        solution1 = (Math.Round((-B)/(2*A),2) + " + " + roundedCoefficient + "i");
+                        solution2 = (Math.Round((-B)/(2*A),2) + " - " + roundedCoefficient + "i");
                     }
                     solutions.Add(solution1);
                     solutions.Add(solution2);
                 }
                 else //If the equation is linear
                 {
-                    double root = (-C)/B;
+                    decimal root = (-C)/B;
                     Math.Round((decimal)root, 2);
                     solution1 = Convert.ToString(root);
                     solutions.Add(solution1);
                 } 
             }
             catch{
-                double root = C;
+                decimal root = C;
                 string solution = Convert.ToString(root);
                 solutions.Add(solution);
             }
             return solutions;
+        }
+
+        public decimal? FindTurningPoint (decimal A, decimal B, decimal C)
+        {
+            //find equation in form (x-b)^2 + c
+            if (A == 1){
+                decimal b = B/2;
+                decimal c = C-(b*b);  
+                decimal turningPoint;
+                turningPoint = b*-1;     
+                return turningPoint;   
+            }
+            if ((A != 1) && (A != 0)){
+                //find in form A[x^2+b]+C
+                decimal b = B / A;
+                //find form A(x+b)^2+C
+                b = b/2;
+                decimal c = C-(A*b*b);
+                decimal turningPoint;
+                turningPoint = b*-1; 
+                return turningPoint;
+            }
+            else{
+                return null;
+            }
+            
+            
+            //half the coefficient of x and times te square by the constant 
+            return null;
         }
     }
 }

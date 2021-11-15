@@ -9,7 +9,7 @@ namespace NEA
 {
     public class DatabaseHelper
     {
-        private readonly IConfiguration _config; 
+        //private readonly IConfiguration _config; 
         private readonly string _connString;
         public DatabaseHelper(string connString){
             //_config = config;
@@ -68,7 +68,7 @@ namespace NEA
                     {
                         var Equation = reader.GetString(1);
                         var equationHelper = new EquationHelper();
-                        List<Double> parts = equationHelper.ParseEquationRegex(Equation);
+                        List<Decimal> parts = equationHelper.ParseEquationRegex(Equation);
                         List<String> solutions = equationHelper.SolveEquation(parts[0],parts[1],parts[2]);
                         
                         String solutionsConcatenated = null;
