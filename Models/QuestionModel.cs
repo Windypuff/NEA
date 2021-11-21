@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Highsoft.Web.Mvc.Charts;
 
 namespace NEA.Models
 {
@@ -9,6 +10,7 @@ namespace NEA.Models
         public string SolutionsConcatenated{get;set;}
         public int DifficultyLevel {get;set;}
         public List<string> IncorrectSolutions {get;set;}
+        public List<SplineSeriesData> Coordinates {get;set;}
         
 
 

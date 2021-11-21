@@ -44,6 +44,7 @@ namespace NEA
         public static readonly Regex LinearRegex = new (@"(?<B>-? ?(\d?)+) ?x(?<C>[+-] ?\d+)?", RegexOptions.IgnoreCase | RegexOptions.Compiled, 
         TimeSpan.FromMilliseconds(250));
         public List<decimal> ParseEquationRegex(string equation){
+            
             equation = equation.Replace(" ", string.Empty);
             Match m = QuadraticRegex.Match(equation); //applies the regex to the inputted equation
             string A;
@@ -291,10 +292,6 @@ namespace NEA
             else{
                 return null;
             }
-            
-            
-            //half the coefficient of x and times te square by the constant 
-            return null;
         }
     }
 }

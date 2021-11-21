@@ -49,13 +49,7 @@ namespace NEA
             List<decimal> xValues = new List<decimal>();
             List<decimal> yValues = new List<decimal>();
             var equationHelper = new EquationHelper();
-            decimal? turningPoint = equationHelper.FindTurningPoint(A,B,C);
-            
-            //Gets x  values of points where y = 0
-
-            
-            
-            //sort solutions
+            decimal? turningPoint = equationHelper.FindTurningPoint(A,B,C); 
 
             try{
                 decimal solution1 = Convert.ToDecimal(solutions[0]);
@@ -99,16 +93,16 @@ namespace NEA
                 decimal startingPointRounded = Math.Round(startingPoint,2); 
                 decimal endPoint = Convert.ToDecimal(turningPoint+10); //The end point of the spline (far right)
                 decimal endPointRounded = Math.Round(endPoint,2);
-                if(xValue2 < startingPoint){ //ensures the solutions are plotted on the graph
-                    if (xValue1 > endPoint){
-                        for (decimal? i = xValue2-5 ; i <= xValue1+5 ; i++){ //Lists through all the x values and adds them to the list of points
+                if(xValue1 < startingPoint){ //ensures the solutions are plotted on the graph
+                    if (xValue2 > endPoint){
+                        for (decimal? i = xValue1-5 ; i <= xValue2+5 ; i++){ //Lists through all the x values and adds them to the list of points
                             xValues.Add(Math.Round(Convert.ToDecimal(i),2));
                             decimal? yValue = A * (i*i) + B *(i) + C; 
                             yValues.Add(Math.Round(Convert.ToDecimal(yValue),2));
                         }
                     }
                     else{
-                        for (decimal? i = xValue2-5 ; i <= endPointRounded ; i++){  //if the solution on the right is less than 10 from the turning point
+                        for (decimal? i = xValue1-5 ; i <= endPointRounded ; i++){  //if the solution on the right is less than 10 from the turning point
                             xValues.Add(Math.Round(Convert.ToDecimal(i),2));
                             decimal? yValue = A * (i*i) + B *(i) + C; 
                             yValues.Add(Math.Round(Convert.ToDecimal(yValue),2));
@@ -140,14 +134,13 @@ namespace NEA
                 }
             } 
 
-            
-            
 
             for (int i = 0; i < xValues.Count; i++ ){
                 if (xValues[i] < xValue1){ //the point it is checking is less than the solution
                     
                 }
                 else if (xValues[i] == xValue1) { //if the solution is already on the graph, leave it
+                    yValues[i] = 0;
                     break;
                 }
                 else { //you have gone past the solution which means it is between the current and previous point
@@ -170,44 +163,35 @@ namespace NEA
             }
             if (xValue2 != null){
                 for (int i = 0; i < xValues.Count; i++ ){
-                if (xValues[i] < xValue2){ //the point it is checking is less than the solution
-                    
-                }
-                else if (xValues[i] == xValue2) { //if the solution is already on the graph, leave it
-                    break;
-                }
-                else{ //you have gone past the solution which means it is between the current and previous point
-                    List<decimal> xValuesTemp = xValues.GetRange(i,xValues.Count-i);
-                    xValues = xValues.GetRange(0,i);
-                    xValues.Add(Convert.ToDecimal(xValue2));
-                    for (int j = 0; j < xValuesTemp.Count; j++){
-                        xValues.Add(xValuesTemp[j]);
+                    if (xValues[i] < xValue2){ //the point it is checking is less than the solution
+                        
                     }
-                    List<decimal> yValuesTemp = yValues.GetRange(i,yValues.Count-i);
-                    yValues = yValues.GetRange(0,i);
-                    yValues.Add(0);
-                    for (int j = 0; j < yValuesTemp.Count; j++){
-                        yValues.Add(yValuesTemp[j]);
+                    else if (xValues[i] == xValue2) { //if the solution is already on the graph, leave it
+                        break;
                     }
-                    break;
-                    
+                    else{ //you have gone past the solution which means it is between the current and previous point
+                        List<decimal> xValuesTemp = xValues.GetRange(i,xValues.Count-i);
+                        xValues = xValues.GetRange(0,i);
+                        xValues.Add(Convert.ToDecimal(xValue2));
+                        for (int j = 0; j < xValuesTemp.Count; j++){
+                            xValues.Add(xValuesTemp[j]);
+                        }
+                        List<decimal> yValuesTemp = yValues.GetRange(i,yValues.Count-i);
+                        yValues = yValues.GetRange(0,i);
+                        yValues.Add(0);
+                        for (int j = 0; j < yValuesTemp.Count; j++){
+                            yValues.Add(yValuesTemp[j]);
+                        }
+                        break;
+                    }
                 }
             }
 
-            }
+        List<List<decimal>> tempData = new List<List<decimal>>();
+        tempData.Add(xValues);
+        tempData.Add(yValues);
 
-            
-
-            List<List<decimal>> tempData = new List<List<decimal>>();
-            tempData.Add(xValues);
-            tempData.Add(yValues);
-
-            return tempData;
-
-            
-            
-            
-            
+        return tempData;
         }
     }
 

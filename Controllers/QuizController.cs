@@ -27,15 +27,15 @@ namespace NEA.Controllers
             _connString = _config.GetValue<string>("ConnectionStrings:DefaultConnection");
         }
 
-        
-
         [HttpGet]
         public IActionResult Index()
         {
             int difficulty = 3;
             var DatabaseHelper = new DatabaseHelper(_connString);
+            var plottingHelper = new PlottingHelper();
             List<QuestionModel> Questions = new List<QuestionModel>(); 
             Questions = DatabaseHelper.GetQuestions(difficulty); 
+            
             var QuestionDTO = new QuestionDTO();
             QuestionDTO.Questions = Questions;
             
@@ -47,9 +47,6 @@ namespace NEA.Controllers
             public int difficulty{get;set;}
             public string equation{get;set;}
         }
-        
-      
-
 
         [HttpPost]
         public IActionResult Index(ResultModel question)
@@ -76,7 +73,7 @@ namespace NEA.Controllers
                 Questions = DatabaseHelper.GetQuestions(difficulty);
                 var QuestionDTO = new QuestionDTO();
                 QuestionDTO.Questions = Questions;
-                QuestionDTO.PreviousAnswerCorrect = "y"; //1 means yes
+                QuestionDTO.PreviousAnswerCorrect = "y"; //y means yes
                            
                 return View(QuestionDTO);
             }
@@ -91,7 +88,7 @@ namespace NEA.Controllers
                 Questions = DatabaseHelper.GetQuestions(difficulty);   
                 var QuestionDTO = new QuestionDTO();
                 QuestionDTO.Questions = Questions;
-                QuestionDTO.PreviousAnswerCorrect = "n";  //0 means no      
+                QuestionDTO.PreviousAnswerCorrect = "n";  //n means no      
                 return View(QuestionDTO);
 
             }

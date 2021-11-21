@@ -42,9 +42,9 @@ namespace NEA.Controllers
         public IActionResult Index(string equation) //Runs when the submit button is pressed
         {
             var equationDTO = new EquationDTO();  //Used to send data to the front end
-
             var equationHelper = new EquationHelper();
             var plottingHelper = new PlottingHelper();
+
             if (equation != null){
                 List<decimal> parts = equationHelper.ParseEquationRegex(equation);
                 List<string> solutions = equationHelper.SolveEquation(parts[0],parts[1],parts[2]);
@@ -68,9 +68,6 @@ namespace NEA.Controllers
                 equationDTO.Coordinates = coordinates;
                 equationDTO.xAxis = xAxis;
                 //equationDTO.yAxis = YAxis;
-
-             
-            
 
                 return View(equationDTO); //Sends the solutions to the front end to be displayed
             }
