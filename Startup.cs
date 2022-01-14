@@ -34,7 +34,11 @@ namespace NEA
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddDistributedMemoryCache();
+            services.AddSession();
             services.AddControllersWithViews();
+            
             
         }
 
@@ -54,6 +58,8 @@ namespace NEA
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseSession();
 
             app.UseRouting();
 

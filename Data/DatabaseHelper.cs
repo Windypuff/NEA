@@ -4,19 +4,140 @@ using NEA.Models;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
 using Highsoft.Web.Mvc.Charts;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 
 namespace NEA
 {
     public class DatabaseHelper
     {
-        //private readonly IConfiguration _config; 
+        //private readonly IConfiguration _config;
         private readonly string _connString;
         public DatabaseHelper(string connString){
             //_config = config;
             //_connString = _config.GetValue<string>("ConnectionStrings:DefaultConnection");
             _connString = connString;
         }        
+
+        public class UserDTO{
+            public string Id {get;set;}
+            public string NetUserId {get;set;}
+            public int AnswersCorrect {get;set;}
+            public int AnswersIncorrect{get;set;}
+            public int difficulty{get;set;}
+        }
+
+        public void CreateUser(IdentityUser user){
+            
+            using (var connection = new SqliteConnection(_connString))
+            {
+                connection.Open();
+
+                var command = connection.CreateCommand();
+
+                command.CommandText =
+                @"
+                    INSERT INTO Users (AnswersCorrect, AnswersIncorrect, CurrentDifficulty, NetUserID)       
+                    VALUES (@AnswersCorrect, @AnswersIncorrect, @CurrentDifficulty, @UserID)    
+                ";
+                command.Parameters.AddWithValue("AnswersCorrect", 0);
+                command.Parameters.AddWithValue("AnswersIncorrect",0);
+                command.Parameters.AddWithValue("CurrentDifficulty", 1);
+                command.Parameters.AddWithValue("UserID", user.Id);
+                command.ExecuteNonQuery();
+            }
+
+        }
+
+        public void ChangeDetails(bool correct, string userId){
+
+            UserDTO user = new UserDTO();
+            
+            using (var connection = new SqliteConnection(_connString)){
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = 
+                @"
+                SELECT * 
+                FROM Users WHERE NetUserId = @UserId   
+                ";
+                command.Parameters.AddWithValue("UserId", userId);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var Id = reader.GetString(0);
+                        var AnswersCorrect = reader.GetInt32(1);
+                        var AnswersIncorrect = reader.GetInt32(2);
+                        var difficulty = reader.GetInt32(3);
+                        
+                        user.AnswersCorrect = AnswersCorrect;
+                        user.AnswersIncorrect = AnswersIncorrect;
+                        user.NetUserId = userId;
+                        user.difficulty = difficulty;
+                    }
+                }
+                if (correct == true){
+                    user.AnswersCorrect += 1;
+                    user.AnswersIncorrect = 0;
+                }
+                else{
+                    user.AnswersIncorrect += 1;
+                    user.AnswersCorrect = 0;
+                }
+                if (user.AnswersCorrect == 3 & user.difficulty != 5){
+                    user.difficulty += 1;
+                    user.AnswersCorrect = 0;
+                    user.AnswersIncorrect = 0;
+                }
+                else if (user.AnswersIncorrect == 3 & user.difficulty != 1){
+                    user.difficulty -= 1;
+                    user.AnswersCorrect = 0;
+                    user.AnswersIncorrect = 0;
+                }
+               
+                command.CommandText = 
+                @"
+                UPDATE Users
+                SET AnswersCorrect = @AnswersCorrect, AnswersIncorrect = @AnswersIncorrect, CurrentDifficulty = @CurrentDifficulty
+                WHERE NetUserId = @NetUserId
+                ";
+                command.Parameters.AddWithValue("AnswersCorrect", user.AnswersCorrect);
+                command.Parameters.AddWithValue("AnswersIncorrect", user.AnswersIncorrect);
+                command.Parameters.AddWithValue("CurrentDifficulty", user.difficulty);
+                command.Parameters.AddWithValue("NetUserId", user.NetUserId);
+                
+                command.ExecuteNonQuery();
+            }
+        }
+        
+        public string getId(string userName){
+
+            using (var connection = new SqliteConnection(_connString)){
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = 
+                @"
+                SELECT Id 
+                FROM AspNetUsers WHERE Email = @UserName   
+                ";
+                command.Parameters.AddWithValue("UserName", userName);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        string Id = reader.GetString(0);
+                        return Id;
+                    }
+                }
+                return null;
+            }
+        }
+
+       
         public UserModel GetUserData(string UserID){
             
             using (var connection = new SqliteConnection(_connString)){
@@ -25,7 +146,7 @@ namespace NEA
                 command.CommandText = 
                 @"
                 SELECT *
-                FROM Users WHERE UserID = @UserID   
+                FROM Users WHERE NetUserID = @UserID   
                 ";
                 command.Parameters.AddWithValue("UserID", UserID);
 

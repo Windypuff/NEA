@@ -11,8 +11,8 @@ namespace NEA.Models
         public int DifficultyLevel {get;set;}
         public List<string> IncorrectSolutions {get;set;}
         public List<SplineSeriesData> Coordinates {get;set;}
-        
-
-
     }
+    
+    
+
 }

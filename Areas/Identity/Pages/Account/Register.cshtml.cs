@@ -13,6 +13,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Configuration;
+using NEA.Models;
 
 namespace NEA.Areas.Identity.Pages.Account
 {
@@ -23,17 +26,24 @@ namespace NEA.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IConfiguration _config; 
+        private readonly string _connString;
+    
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IConfiguration config)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _config = config;
+            _connString = _config.GetValue<string>("ConnectionStrings:DefaultConnection");
+            
         }
 
         [BindProperty]
@@ -78,6 +88,12 @@ namespace NEA.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    //Use SQL to create new row in users table
+                    
+                    var databaseHelper = new DatabaseHelper(_connString);
+                    databaseHelper.CreateUser(user);
+
+            
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

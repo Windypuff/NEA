@@ -86,6 +86,8 @@
 }
 
 </style>
+
+
 <body>
 
 @if (PreviousAnswerCorrect == "y"){
@@ -94,6 +96,8 @@
 @if (PreviousAnswerCorrect == "n"){
   <h1 style="color:red;">Incorrect</h1>
 }
+
+
 <h2>@questions[i].Equation</h2>
 <form method="POST">
   <input type = "hidden" name = "equation" value = @questions[i].Equation />
@@ -112,5 +116,4 @@
 
 </body>
 </html>
-
 

@@ -92,7 +92,7 @@
                     MaxPadding = 0.05,
                     ShowLastLabel = true
                 }
-                              },
+            },
             YAxis = new List<YAxis>
             {
                 new YAxis
@@ -145,9 +145,11 @@
 
     chartOptions.ID = "chart";
     var renderer = new HighchartsRenderer(chartOptions);
-}
+    
+    }
 
 @if(Model.Coordinates != null){
+   
     @Html.Raw(renderer.RenderHtml())
 }
 
