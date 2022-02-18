@@ -169,6 +169,11 @@ namespace NEA
                 return null;
             }
         }   
+
+        public List<QuestionModel> getQuestionsForQuiz(int DifficultyLevel)
+        {
+            return null;
+        }
         public List<QuestionModel> GetQuestions(int DifficultyLevel)
         {
             List<QuestionModel> Questions = new List<QuestionModel>();
@@ -199,6 +204,8 @@ namespace NEA
                         if (turningPoint == null){
                             turningPoint = 0;
                         }
+                        List<SplineSeriesData> xAxis = plottingHelper.xAxisPoints(tempCoordinates[0]);
+
                         List<SplineSeriesData> coordinates = new List<SplineSeriesData>(); //List of points
                         for (int i = 0; i < tempCoordinates[0].Count; i++) //lists through each point and adds them to the list
                         {
@@ -216,11 +223,12 @@ namespace NEA
                         }
                     
                         QuestionModel Question = new QuestionModel{
-                            Equation = Equation,
-                            DifficultyLevel = DifficultyLevel,
-                            Solutions = solutions,
-                            SolutionsConcatenated = solutionsConcatenated,
-                            Coordinates = coordinates
+                            difficultyLevel = DifficultyLevel,
+                            solutionsConcatenated = solutionsConcatenated,
+                            equation = Equation,
+                            solutions = solutions,
+                            coordinates = coordinates,
+                            xAxis = xAxis
                         };
                         Questions.Add(Question);                       
                     }

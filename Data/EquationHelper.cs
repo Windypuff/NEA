@@ -11,6 +11,7 @@ namespace NEA
         public List<Decimal> RemoveAdditionSign(string A, string B, string C){
             List<Decimal> parts = new List<Decimal>();
             try{
+            try{
                 Decimal partA = Convert.ToDecimal(A);
                 parts.Add(partA);
 
@@ -34,6 +35,10 @@ namespace NEA
             catch{
                 Decimal partC = Convert.ToDecimal(C[1]);
                 parts.Add(partC);
+            }
+            }
+            catch{
+                
             }
             return parts;
         }
@@ -250,8 +255,15 @@ namespace NEA
                         solution1 = (Math.Round((-B)/(2*A),2) + " + " + roundedCoefficient + "i");
                         solution2 = (Math.Round((-B)/(2*A),2) + " - " + roundedCoefficient + "i");
                     }
-                    solutions.Add(solution1);
+                    if (solution1 == solution2){
+                        solutions.Add(solution1);
+                    }
+                    else{
+                        solutions.Add(solution1);
                     solutions.Add(solution2);
+
+                    }
+                    
                 }
                 else //If the equation is linear
                 {

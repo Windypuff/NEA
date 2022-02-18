@@ -148,9 +148,16 @@
     
     }
 
-@if(Model.Coordinates != null){
+@try{
+    if(Model.Coordinates != null){
    
     @Html.Raw(renderer.RenderHtml())
 }
+}
+catch{
+
+}
+
+
 
 

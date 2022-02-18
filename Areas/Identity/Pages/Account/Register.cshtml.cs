@@ -84,7 +84,11 @@ namespace NEA.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
+                 //int startPos = 0;
+               // int endPos = Input.Email.IndexOf("@");
+                //string UserName = Input.Email.Substring(startPos, endPos);
                 var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+                
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

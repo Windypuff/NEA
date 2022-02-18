@@ -41,12 +41,18 @@ namespace NEA.Controllers
         [HttpPost] 
         public IActionResult Index(string equation) //Runs when the submit button is pressed
         {
-            var equationDTO = new EquationDTO();  //Used to send data to the front end
+            var equationDTO = new EquationDTO(); 
+            try{
+
+            //var equationDTO = new EquationDTO();  //Used to send data to the front end
             var equationHelper = new EquationHelper();
             var plottingHelper = new PlottingHelper();
 
             if (equation != null){
                 List<decimal> parts = equationHelper.ParseEquationRegex(equation);
+                
+
+                
                 List<string> solutions = equationHelper.SolveEquation(parts[0],parts[1],parts[2]);
                 List<List<decimal>> tempCoordinates = plottingHelper.GetPoints(parts[0],parts[1],parts[2],solutions);
                 
@@ -70,9 +76,15 @@ namespace NEA.Controllers
                 //equationDTO.yAxis = YAxis;
 
                 return View(equationDTO); //Sends the solutions to the front end to be displayed
-            }
+                }
+                
+            
             else{
-                return View();
+                return View(equationDTO);
+            }
+            }
+            catch{
+                return View(equationDTO);
             }
         }
 

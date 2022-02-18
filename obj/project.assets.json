@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     "net5.0": {
-      "Highsoft.Highcharts/9.2.2.1": {
+      "Highsoft.Highcharts/9.3.2.1": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "12.0.1"
@@ -1675,14 +1675,14 @@
     }
   },
   "libraries": {
-    "Highsoft.Highcharts/9.2.2.1": {
-      "sha512": "FnReo8BHQPYo/Y/u/Sxqh39W1eg8qkOW/jPlUcEQvpGvYvcltuaODnn+2PlNZTBLlELM6YondD8ermRCCHqblg==",
+    "Highsoft.Highcharts/9.3.2.1": {
+      "sha512": "TRIfXRSr7sOpo0BK0gqAgJGzmQngeon3J4np777e4qe7xXfGKp0Xp/uKPAwk2BFmDScEe4GWe/aYuFl90wxE4w==",
       "type": "package",
-      "path": "highsoft.highcharts/9.2.2.1",
+      "path": "highsoft.highcharts/9.3.2.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "highsoft.highcharts.9.2.2.1.nupkg.sha512",
+        "highsoft.highcharts.9.3.2.1.nupkg.sha512",
         "highsoft.highcharts.nuspec",
         "lib/netstandard2.0/Highcharts.dll",
         "license.txt"
@@ -5429,7 +5429,7 @@
   },
   "projectFileDependencyGroups": {
     "net5.0": [
-      "Highsoft.Highcharts >= 9.2.2.1",
+      "Highsoft.Highcharts >= 9.3.2.1",
       "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore >= 5.0.1",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 5.0.1",
       "Microsoft.AspNetCore.Identity.UI >= 5.0.12",
@@ -5479,7 +5479,7 @@
         "dependencies": {
           "Highsoft.Highcharts": {
             "target": "Package",
-            "version": "[9.2.2.1, )"
+            "version": "[9.3.2.1, )"
           },
           "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
             "target": "Package",

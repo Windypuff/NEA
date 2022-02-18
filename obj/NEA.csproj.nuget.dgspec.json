@@ -40,7 +40,7 @@
           "dependencies": {
             "Highsoft.Highcharts": {
               "target": "Package",
-              "version": "[9.2.2.1, )"
+              "version": "[9.3.2.1, )"
             },
             "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
               "target": "Package",
