@@ -8,19 +8,19 @@ using Microsoft.Extensions.Logging;
 using NEA.Models;
 
 using System.Web;
-//using System.Web.Mvc;
 using Highsoft.Web.Mvc.Charts;
 
 
 
 namespace NEA.Controllers
 {
-    public class EquationDTO{
-        public string equation {get;set;}
-        public List<string> solutions {get;set;}
-        public List<SplineSeriesData> Coordinates {get;set;}
-        public List<SplineSeriesData> xAxis {get;set;}
-        public List<SplineSeriesData> yAxis {get;set;}
+    public class EquationDTO
+    {
+        public string equation { get; set; }
+        public List<string> solutions { get; set; }
+        public List<SplineSeriesData> Coordinates { get; set; }
+        public List<SplineSeriesData> xAxis { get; set; }
+        public List<SplineSeriesData> yAxis { get; set; }
     }
     public class HomeController : Controller
     {
@@ -38,52 +38,55 @@ namespace NEA.Controllers
             return View(equationDTO);
         }
 
-        [HttpPost] 
+        [HttpPost]
         public IActionResult Index(string equation) //Runs when the submit button is pressed
         {
-            var equationDTO = new EquationDTO(); 
-            try{
+            var equationDTO = new EquationDTO();
+            try
+            {
 
-            //var equationDTO = new EquationDTO();  //Used to send data to the front end
-            var equationHelper = new EquationHelper();
-            var plottingHelper = new PlottingHelper();
+                //var equationDTO = new EquationDTO();  //Used to send data to the front end
+                var equationHelper = new EquationHelper();
+                var plottingHelper = new PlottingHelper();
 
-            if (equation != null){
-                List<decimal> parts = equationHelper.ParseEquationRegex(equation);
-                
-
-                
-                List<string> solutions = equationHelper.SolveEquation(parts[0],parts[1],parts[2]);
-                List<List<decimal>> tempCoordinates = plottingHelper.GetPoints(parts[0],parts[1],parts[2],solutions);
-                
-                decimal? turningPoint = equationHelper.FindTurningPoint(parts[0],parts[1],parts[2]);
-                if (turningPoint == null){
-                    turningPoint = 0;
-                }
-                List<SplineSeriesData> xAxis = plottingHelper.xAxisPoints(tempCoordinates[0]);
-
-                List<SplineSeriesData> coordinates = new List<SplineSeriesData>(); //List of points
-                for (int i = 0; i < tempCoordinates[0].Count; i++) //lists through each point and adds them to the list
+                if (equation != null)
                 {
-                    SplineSeriesData seriesData = new SplineSeriesData { X = Convert.ToDouble(tempCoordinates[0][i]), Y = Convert.ToDouble(tempCoordinates[1][i]) };
-                    coordinates.Add(seriesData);
-                }
-                //List<SplineSeriesData> yAxis = 
-                equationDTO.equation = equation;
-                equationDTO.solutions = solutions;
-                equationDTO.Coordinates = coordinates;
-                equationDTO.xAxis = xAxis;
-                //equationDTO.yAxis = YAxis;
+                    List<decimal> parts = equationHelper.ParseEquationRegex(equation);
 
-                return View(equationDTO); //Sends the solutions to the front end to be displayed
+
+
+                    List<string> solutions = equationHelper.SolveEquation(parts[0], parts[1], parts[2]);
+                    List<List<decimal>> tempCoordinates = plottingHelper.GetPoints(parts[0], parts[1], parts[2], solutions);
+
+                    decimal? turningPoint = equationHelper.FindTurningPoint(parts[0], parts[1], parts[2]);
+                    if (turningPoint == null)
+                    {
+                        turningPoint = 0;
+                    }
+                    List<SplineSeriesData> xAxis = plottingHelper.xAxisPoints(tempCoordinates[0]);
+
+                    List<SplineSeriesData> coordinates = new List<SplineSeriesData>(); //List of points
+                    for (int i = 0; i < tempCoordinates[0].Count; i++) //lists through each point and adds them to the list
+                    {
+                        SplineSeriesData seriesData = new SplineSeriesData { X = Convert.ToDouble(tempCoordinates[0][i]), Y = Convert.ToDouble(tempCoordinates[1][i]) };
+                        coordinates.Add(seriesData);
+                    }
+                    equationDTO.equation = equation;
+                    equationDTO.solutions = solutions;
+                    equationDTO.Coordinates = coordinates;
+                    equationDTO.xAxis = xAxis;
+
+                    return View(equationDTO); //Sends the solutions to the front end to be displayed
                 }
-                
-            
-            else{
-                return View(equationDTO);
+
+
+                else
+                {
+                    return View(equationDTO);
+                }
             }
-            }
-            catch{
+            catch
+            {
                 return View(equationDTO);
             }
         }

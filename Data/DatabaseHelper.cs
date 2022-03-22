@@ -7,19 +7,14 @@ using Highsoft.Web.Mvc.Charts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 
-
 namespace NEA
 {
     public class DatabaseHelper
     {
-        //private readonly IConfiguration _config;
         private readonly string _connString;
         public DatabaseHelper(string connString){
-            //_config = config;
-            //_connString = _config.GetValue<string>("ConnectionStrings:DefaultConnection");
             _connString = connString;
         }        
-
         public class UserDTO{
             public string Id {get;set;}
             public string NetUserId {get;set;}
@@ -49,7 +44,6 @@ namespace NEA
             }
 
         }
-
         public void ChangeDetails(bool correct, string userId){
 
             UserDTO user = new UserDTO();
@@ -111,8 +105,7 @@ namespace NEA
                 
                 command.ExecuteNonQuery();
             }
-        }
-        
+        } 
         public string getId(string userName){
 
             using (var connection = new SqliteConnection(_connString)){
@@ -136,8 +129,6 @@ namespace NEA
                 return null;
             }
         }
-
-       
         public UserModel GetUserData(string UserID){
             
             using (var connection = new SqliteConnection(_connString)){
@@ -169,7 +160,6 @@ namespace NEA
                 return null;
             }
         }   
-
         public List<QuestionModel> getQuestionsForQuiz(int DifficultyLevel)
         {
             return null;
@@ -212,8 +202,7 @@ namespace NEA
                             SplineSeriesData seriesData = new SplineSeriesData { X = Convert.ToDouble(tempCoordinates[0][i]), Y = Convert.ToDouble(tempCoordinates[1][i]) };
                             coordinates.Add(seriesData);
                         }
-
-                        
+         
                         String solutionsConcatenated = null;
                         if (solutions.Count == 1){
                             solutionsConcatenated = solutions[0];

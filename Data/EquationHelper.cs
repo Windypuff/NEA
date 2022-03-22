@@ -2,19 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-
 namespace NEA
 {
     public class EquationHelper
     {
-    
         public List<Decimal> RemoveAdditionSign(string A, string B, string C){
             List<Decimal> parts = new List<Decimal>();
             try{
             try{
                 Decimal partA = Convert.ToDecimal(A);
                 parts.Add(partA);
-
             }
             catch{
                 parts.Add(1);
@@ -42,7 +39,6 @@ namespace NEA
             }
             return parts;
         }
-
         public static readonly Regex QuadraticRegex = new (@"(?:(?<A>-?(\d+)?) ?x\^2)(?<B>[+-] ?(\d?)+) ?x(?<C>[+-] ?\d+)?", RegexOptions.IgnoreCase | RegexOptions.Compiled, 
         TimeSpan.FromMilliseconds(250));
 
@@ -76,8 +72,7 @@ namespace NEA
                 }
                 List<Decimal> parts = new List<Decimal>();
                 parts = RemoveAdditionSign(A,B,C); //The regex leaves - and + signs with each number so to convert to a decimal we must remove the + sign
-                return parts;
-                
+                return parts; 
             }
             else{
                 m = LinearRegex.Match(equation);  
@@ -106,7 +101,6 @@ namespace NEA
             List<string> positiveParts =  new List<string>();
             List<string> negativeParts =  new List<string>();
             string[] additionSplitString = equation.Split("+");
-
             try
             {
                 foreach (var positivePart in additionSplitString)
@@ -211,17 +205,12 @@ namespace NEA
 
                 return parts;
             }
-
             catch
             {
                 Console.WriteLine("Invalid entry, please try again");
                 return null;
             }
-
-
         }
-
-        
         public List<string> SolveEquation(decimal A, decimal B, decimal C){
             List<string> solutions = new List<string>();
             string solution1 = ""; //Quadratics have two solutions
@@ -261,9 +250,7 @@ namespace NEA
                     else{
                         solutions.Add(solution1);
                     solutions.Add(solution2);
-
-                    }
-                    
+                    }              
                 }
                 else //If the equation is linear
                 {

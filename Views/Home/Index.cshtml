@@ -3,18 +3,12 @@
 @using Highsoft.Web.Mvc.Charts
 @using Highsoft.Web.Mvc.Charts.Rendering
 
-
-
-
 @{
     ViewData["Title"] = "Home Page";
     List<string> solutions = null;
     if (Model.solutions != null){
         solutions = Model.solutions;
     }
-   
-    
-
 }
 <div class="container">
     <form method="POST" enctype="multipart/form-data" >
@@ -43,22 +37,17 @@
     }   
 </div>
 
-
-
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
-
 
 <script type="text/javascript">
 
     function formatXLabels() {
         return this.value;
     }
-
     function formatYLabels() {
         return this.value;
     }
-
 </script>
 
 @{ var chartOptions =

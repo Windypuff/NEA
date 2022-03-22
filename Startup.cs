@@ -29,7 +29,7 @@ namespace NEA
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                    Configuration.GetConnectionString("DefaultConnection"))); //New Code
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -38,8 +38,6 @@ namespace NEA
             services.AddDistributedMemoryCache();
             services.AddSession();
             services.AddControllersWithViews();
-            
-            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

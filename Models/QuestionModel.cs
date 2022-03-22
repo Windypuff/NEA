@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Highsoft.Web.Mvc.Charts;
-
-
 using Highsoft.Web.Mvc.Charts.Rendering;
-
 
 namespace NEA.Models
 {
@@ -18,7 +15,4 @@ namespace NEA.Models
         public HighchartsRenderer render { get; set; }
         public List<SplineSeriesData> xAxis {get;set;}
     }
-    
-    
-
 }

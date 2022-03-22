@@ -1,19 +1,13 @@
 using System;
 using System.Collections.Generic;
-
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NEA.Models;
-
 using System.Web;
-//using System.Web.Mvc;
 using Highsoft.Web.Mvc.Charts;
-
-
-
 
 namespace NEA
 {
@@ -22,7 +16,6 @@ namespace NEA
         public List<SplineSeriesData> xAxisPoints( List<decimal> Graph_xValues){
             List<decimal> xValues = new List<decimal>();
             List<decimal> yValues = new List<decimal>();
-            
 
             decimal startingPoint = Convert.ToDecimal(Graph_xValues[0]);
             decimal endPoint = Convert.ToDecimal(Graph_xValues[Graph_xValues.Count-1]);
@@ -39,8 +32,6 @@ namespace NEA
                 tempData.Add(seriesData);
             }
             return tempData;
-            
-
         }
         public decimal? xValue1 = null;
         public decimal? xValue2 = null;
@@ -58,7 +49,6 @@ namespace NEA
                     solutions[0] = Convert.ToString(solution2);
                     solutions[1] = Convert.ToString(solution1);
                 }
-                
             }
             catch{
                 
@@ -67,18 +57,12 @@ namespace NEA
             try{
                 xValue1 = Convert.ToDecimal(solutions[0]);
                 decimal? yValue = A * (xValue1*xValue1) + B *(xValue1) + C;
-                // xValues.Add(Math.Round(Convert.ToDecimal(xValue1),2));
-                // yValues.Add(0);
                 xValue2 = Convert.ToDecimal(solutions[1]);
                 yValue = A * (xValue2*xValue2) + B *(xValue2) + C;
-            //     xValues.Add(Math.Round(Convert.ToDecimal(xValue2),2));
-            //    yValues.Add(0);
              } 
              catch(ArgumentOutOfRangeException){ //if there is only one solution
                 xValue1 = Convert.ToDecimal(solutions[0]);
                 decimal? yValue = A * (xValue1*xValue1) + B *(xValue1) + C;
-                // xValues.Add(Math.Round(xValue1,2));
-                // yValues.Add(0);
             }
             catch(FormatException){ //if one or more of the solutions are complex
                 
@@ -133,7 +117,6 @@ namespace NEA
                     yValues.Add(yValue);
                 }
             } 
-
 
             for (int i = 0; i < xValues.Count; i++ ){
                 if (xValues[i] < xValue1){ //the point it is checking is less than the solution
@@ -190,9 +173,7 @@ namespace NEA
         List<List<decimal>> tempData = new List<List<decimal>>();
         tempData.Add(xValues);
         tempData.Add(yValues);
-
         return tempData;
         }
     }
-
 }

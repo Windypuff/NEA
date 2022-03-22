@@ -9,26 +9,14 @@ using NEA.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-
-
 using Highsoft.Web.Mvc.Charts;
 using Highsoft.Web.Mvc.Charts.Rendering;
-
-
-
 using System.Web;
-//using System.Web.Mvc;
-
-
-
 
 namespace NEA.Controllers
 {
-
-
     public class QuestionDTO
     {
-
         public EquationDTO EquationDTO { get; set; }
         public List<QuestionModel> Questions { get; set; }
         public string PreviousAnswerCorrect { get; set; }
@@ -39,7 +27,6 @@ namespace NEA.Controllers
     {
         private readonly IConfiguration _config;
         private readonly string _connString;
-
         public QuizController(IConfiguration config)
         {
             _config = config;
@@ -49,7 +36,6 @@ namespace NEA.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-
             int difficulty;
             var DatabaseHelper = new DatabaseHelper(_connString);
             var plottingHelper = new PlottingHelper();
@@ -78,40 +64,32 @@ namespace NEA.Controllers
             var QuestionDTO = new QuestionDTO();
             QuestionDTO.Questions = Questions;
 
-
             var chartOptions1 =
-                        new Highcharts
-                        {
-                            ID = "chart1",
-                            Title = new Title
-                            {
-                                Text = null
-                            },
-
-                            XAxis = new List<XAxis>
-                            {
-
-                     new XAxis
+                new Highcharts
+                {
+                    ID = "chart1",
+                    Title = new Title
                     {
-
-                        PlotLines = new List<XAxisPlotLines>
+                        Text = null
+                    },
+                    XAxis = new List<XAxis>
+                    {
+                        new XAxis
                         {
-                            new XAxisPlotLines
+                            PlotLines = new List<XAxisPlotLines>
                             {
-                                Value = 0,
-                                Width = 1,
-                                Color = "#808080"
-                            }
-                        },
-
-                    }
-
+                                new XAxisPlotLines
+                                {
+                                    Value = 0,
+                                    Width = 1,
+                                    Color = "#808080"
+                                }
                             },
-
-                            YAxis = new List<YAxis>
-                            {
-
-                    new YAxis
+                        }
+                    },
+                    YAxis = new List<YAxis>
+                    {
+                        new YAxis
                     {
                         Title = new YAxisTitle
                             {
@@ -127,20 +105,20 @@ namespace NEA.Controllers
                                 Color = "#808080"
                             }
                         },
-                        
+
 
                     }
                             },
-                            Tooltip = new Tooltip
-                            {
-                                Enabled = false
+                    Tooltip = new Tooltip
+                    {
+                        Enabled = false
 
-                            },
-                            Legend = new Legend
-                            {
-                                Enabled = false
-                            },
-                            Series = new List<Series>
+                    },
+                    Legend = new Legend
+                    {
+                        Enabled = false
+                    },
+                    Series = new List<Series>
                             {
                     new SplineSeries
                     {
@@ -150,7 +128,7 @@ namespace NEA.Controllers
                     },
 
                             }
-                        };
+                };
             var chartOptions2 =
                                     new Highcharts
                                     {
@@ -739,15 +717,15 @@ namespace NEA.Controllers
                                         };
 
 
-                
 
-               QuestionDTO.Questions[0].render = new HighchartsRenderer(chartOptions1);
-            QuestionDTO.Questions[1].render = new HighchartsRenderer(chartOptions2);
-            QuestionDTO.Questions[2].render = new HighchartsRenderer(chartOptions3);
-            QuestionDTO.Questions[3].render = new HighchartsRenderer(chartOptions4);
-            //QuestionDTO.Questions[4].render = new HighchartsRenderer(chartOptions5);
 
-                
+                QuestionDTO.Questions[0].render = new HighchartsRenderer(chartOptions1);
+                QuestionDTO.Questions[1].render = new HighchartsRenderer(chartOptions2);
+                QuestionDTO.Questions[2].render = new HighchartsRenderer(chartOptions3);
+                QuestionDTO.Questions[3].render = new HighchartsRenderer(chartOptions4);
+                //QuestionDTO.Questions[4].render = new HighchartsRenderer(chartOptions5);
+
+
                 return View(QuestionDTO);
             }
             else
@@ -1079,13 +1057,11 @@ namespace NEA.Controllers
                                             }
                                         };
 
-
-
                 QuestionDTO.Questions[0].render = new HighchartsRenderer(chartOptions1);
-            QuestionDTO.Questions[1].render = new HighchartsRenderer(chartOptions2);
-            QuestionDTO.Questions[2].render = new HighchartsRenderer(chartOptions3);
-            QuestionDTO.Questions[3].render = new HighchartsRenderer(chartOptions4);
-            //QuestionDTO.Questions[4].render = new HighchartsRenderer(chartOptions5);
+                QuestionDTO.Questions[1].render = new HighchartsRenderer(chartOptions2);
+                QuestionDTO.Questions[2].render = new HighchartsRenderer(chartOptions3);
+                QuestionDTO.Questions[3].render = new HighchartsRenderer(chartOptions4);
+                //QuestionDTO.Questions[4].render = new HighchartsRenderer(chartOptions5);
                 return View(QuestionDTO);
 
             }
